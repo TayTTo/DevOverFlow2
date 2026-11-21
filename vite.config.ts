@@ -1,20 +1,32 @@
-import { defineConfig, lazyPlugins } from "vite-plus";
-import { devtools } from "@tanstack/devtools-vite";
+import { defineConfig, lazyPlugins } from 'vite-plus'
+import { devtools } from '@tanstack/devtools-vite'
 
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import { nitro } from "nitro/vite";
-import viteReact from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import neon from "./neon-vite-plugin.ts";
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { nitro } from 'nitro/vite'
+import viteReact from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 const config = defineConfig({
   staged: {
-    "*": "vp check --fix",
+    '*': 'vp check --fix',
   },
-  fmt: {},
+  fmt: {
+    // Keep the TanStack template's style
+    singleQuote: true,
+    semi: false,
+    printWidth: 80,
+    // Tool-generated files, not ours to format
+    ignorePatterns: [
+      '.repowise/**',
+      '.claude/**',
+      '.github/**',
+      '.vscode/**',
+      'src/routeTree.gen.ts',
+    ],
+  },
   lint: {
-    jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-    rules: { "vite-plus/prefer-vite-plus-imports": "error" },
+    jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
+    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
     options: { typeAware: true, typeCheck: true },
   },
   test: {
@@ -27,12 +39,11 @@ const config = defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: lazyPlugins(() => [
     devtools(),
-    neon,
     nitro(),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
   ]),
-});
+})
 
-export default config;
+export default config
