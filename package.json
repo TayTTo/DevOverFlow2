@@ -7,19 +7,18 @@
   },
   "scripts": {
     "dev": "dotenv -e .env.local -- sh -c \"NODE_OPTIONS='--import ./instrument.server.mjs' vite dev --port 3000\"",
-    "build": "vite build && cp instrument.server.mjs .output/server",
-    "preview": "vite preview",
-    "test": "vitest run",
+    "build": "vp build && cp instrument.server.mjs .output/server",
+    "preview": "vp preview",
+    "test": "vp test run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:pull": "drizzle-kit pull",
     "db:studio": "drizzle-kit studio",
     "start": "node --import ./.output/server/instrument.server.mjs .output/server/index.mjs",
-    "deploy": "pnpm run build && wrangler deploy"
+    "prepare": "vp config"
   },
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.26.0",
     "@neondatabase/serverless": "^1.0.2",
     "@sentry/tanstackstart-react": "^10.42.0",
     "@tailwindcss/vite": "^4.1.18",
@@ -36,6 +35,7 @@
     "drizzle-kit": "^0.31.9",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.545.0",
+    "nitro": "3.0.261103-rc",
     "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -56,14 +56,7 @@
     "jsdom": "^28.1.0",
     "tsx": "^4.21.0",
     "typescript": "^5.7.2",
-    "vite": "^8.0.0",
-    "vitest": "^3.0.5",
-    "wrangler": "^4.70.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss"
-    ]
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   }
 }

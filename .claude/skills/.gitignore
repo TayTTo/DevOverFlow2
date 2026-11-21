@@ -1,0 +1,6 @@
+# pnpm
+/devtools-vite-plugin
+/dotenv
+/router-plugin
+/router-query
+# pnpm end

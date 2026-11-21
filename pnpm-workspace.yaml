@@ -1,0 +1,26 @@
+allowBuilds:
+  "@sentry/cli": true
+  esbuild: true
+  workerd: true
+permissions:
+  "@tanstack/devtools-vite":
+    skills: true
+  "@tanstack/react-router":
+    skills: [router-query]
+  "@tanstack/react-start":
+    skills: false
+  "@tanstack/router-plugin":
+    skills: true
+  dotenv:
+    skills: [dotenv]
+skills:
+  dirs:
+    - .claude/skills
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@8.3.8000
+  vite-plus: 1.7.0
+overrides:
+  vite@*: "catalog:"
