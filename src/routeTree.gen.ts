@@ -20,6 +20,7 @@ import { Route as MainCommunityRouteImport } from './routes/_main/community'
 import { Route as MainJobsRouteImport } from './routes/_main/jobs'
 import { Route as MainProfileIndexRouteImport } from './routes/_main/profile/index'
 import { Route as MainProfileIdRouteImport } from './routes/_main/profile/$id'
+import { Route as MainQuestionIdRouteImport } from './routes/_main/question/$id'
 import { Route as MainTagsIndexRouteImport } from './routes/_main/tags/index'
 import { Route as MainTagsIdRouteImport } from './routes/_main/tags/$id'
 
@@ -76,6 +77,11 @@ const MainProfileIdRoute = MainProfileIdRouteImport.update({
   path: '/profile/$id',
   getParentRoute: () => MainRoute,
 } as any)
+const MainQuestionIdRoute = MainQuestionIdRouteImport.update({
+  id: '/question/$id',
+  path: '/question/$id',
+  getParentRoute: () => MainRoute,
+} as any)
 const MainTagsIndexRoute = MainTagsIndexRouteImport.update({
   id: '/tags/',
   path: '/tags/',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof MainCommunityRoute
   '/jobs': typeof MainJobsRoute
   '/profile/$id': typeof MainProfileIdRoute
+  '/question/$id': typeof MainQuestionIdRoute
   '/tags/$id': typeof MainTagsIdRoute
   '/profile/': typeof MainProfileIndexRoute
   '/tags/': typeof MainTagsIndexRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/community': typeof MainCommunityRoute
   '/jobs': typeof MainJobsRoute
   '/profile/$id': typeof MainProfileIdRoute
+  '/question/$id': typeof MainQuestionIdRoute
   '/tags/$id': typeof MainTagsIdRoute
   '/profile': typeof MainProfileIndexRoute
   '/tags': typeof MainTagsIndexRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/_main/jobs': typeof MainJobsRoute
   '/_main/': typeof MainIndexRoute
   '/_main/profile/$id': typeof MainProfileIdRoute
+  '/_main/question/$id': typeof MainQuestionIdRoute
   '/_main/tags/$id': typeof MainTagsIdRoute
   '/_main/profile/': typeof MainProfileIndexRoute
   '/_main/tags/': typeof MainTagsIndexRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/jobs'
     | '/profile/$id'
+    | '/question/$id'
     | '/tags/$id'
     | '/profile/'
     | '/tags/'
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/jobs'
     | '/profile/$id'
+    | '/question/$id'
     | '/tags/$id'
     | '/profile'
     | '/tags'
@@ -168,6 +179,7 @@ export interface FileRouteTypes {
     | '/_main/jobs'
     | '/_main/'
     | '/_main/profile/$id'
+    | '/_main/question/$id'
     | '/_main/tags/$id'
     | '/_main/profile/'
     | '/_main/tags/'
@@ -257,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainProfileIdRouteImport
       parentRoute: typeof MainRoute
     }
+    '/_main/question/$id': {
+      id: '/_main/question/$id'
+      path: '/question/$id'
+      fullPath: '/question/$id'
+      preLoaderRoute: typeof MainQuestionIdRouteImport
+      parentRoute: typeof MainRoute
+    }
     '/_main/tags/': {
       id: '/_main/tags/'
       path: '/tags'
@@ -293,6 +312,7 @@ interface MainRouteChildren {
   MainJobsRoute: typeof MainJobsRoute
   MainIndexRoute: typeof MainIndexRoute
   MainProfileIdRoute: typeof MainProfileIdRoute
+  MainQuestionIdRoute: typeof MainQuestionIdRoute
   MainTagsIdRoute: typeof MainTagsIdRoute
   MainProfileIndexRoute: typeof MainProfileIndexRoute
   MainTagsIndexRoute: typeof MainTagsIndexRoute
@@ -305,6 +325,7 @@ const MainRouteChildren: MainRouteChildren = {
   MainJobsRoute: MainJobsRoute,
   MainIndexRoute: MainIndexRoute,
   MainProfileIdRoute: MainProfileIdRoute,
+  MainQuestionIdRoute: MainQuestionIdRoute,
   MainTagsIdRoute: MainTagsIdRoute,
   MainProfileIndexRoute: MainProfileIndexRoute,
   MainTagsIndexRoute: MainTagsIndexRoute,

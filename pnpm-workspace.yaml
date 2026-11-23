@@ -1,5 +1,6 @@
 allowBuilds:
   esbuild: true
+  es5-ext: false
 permissions:
   '@tanstack/devtools-vite':
     skills: true
