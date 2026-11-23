@@ -23,6 +23,7 @@ import { Route as MainProfileIdRouteImport } from './routes/_main/profile/$id'
 import { Route as MainQuestionIdRouteImport } from './routes/_main/question/$id'
 import { Route as MainTagsIndexRouteImport } from './routes/_main/tags/index'
 import { Route as MainTagsIdRouteImport } from './routes/_main/tags/$id'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -92,6 +93,11 @@ const MainTagsIdRoute = MainTagsIdRouteImport.update({
   path: '/tags/$id',
   getParentRoute: () => MainRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/profile/$id': typeof MainProfileIdRoute
   '/question/$id': typeof MainQuestionIdRoute
   '/tags/$id': typeof MainTagsIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/profile/': typeof MainProfileIndexRoute
   '/tags/': typeof MainTagsIndexRoute
 }
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/profile/$id': typeof MainProfileIdRoute
   '/question/$id': typeof MainQuestionIdRoute
   '/tags/$id': typeof MainTagsIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/profile': typeof MainProfileIndexRoute
   '/tags': typeof MainTagsIndexRoute
 }
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/_main/profile/$id': typeof MainProfileIdRoute
   '/_main/question/$id': typeof MainQuestionIdRoute
   '/_main/tags/$id': typeof MainTagsIdRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/_main/profile/': typeof MainProfileIndexRoute
   '/_main/tags/': typeof MainTagsIndexRoute
 }
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/profile/$id'
     | '/question/$id'
     | '/tags/$id'
+    | '/api/auth/$'
     | '/profile/'
     | '/tags/'
   fileRoutesByTo: FileRoutesByTo
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/profile/$id'
     | '/question/$id'
     | '/tags/$id'
+    | '/api/auth/$'
     | '/profile'
     | '/tags'
   id:
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/_main/profile/$id'
     | '/_main/question/$id'
     | '/_main/tags/$id'
+    | '/api/auth/$'
     | '/_main/profile/'
     | '/_main/tags/'
   fileRoutesById: FileRoutesById
@@ -188,6 +200,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   MainRoute: typeof MainRouteWithChildren
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -290,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainTagsIdRouteImport
       parentRoute: typeof MainRoute
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -336,6 +356,7 @@ const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   MainRoute: MainRouteWithChildren,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
