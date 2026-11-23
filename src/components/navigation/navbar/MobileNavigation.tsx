@@ -9,9 +9,13 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import ROUTES from '@/constants/routes'
+import { authClient } from '@/lib/auth-client'
+import LogoutButton from '../LogoutButton'
 import NavLinks from './NavLinks'
 
 const MobileNavigation = () => {
+  const { data: session } = authClient.useSession()
+
   return (
     <div className="sm:hidden">
       <Sheet>
@@ -45,16 +49,22 @@ const MobileNavigation = () => {
               <NavLinks isMobileNav />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Link to={ROUTES.SIGN_IN}>
-                <Button className="w-full small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] rounded-lg border px-4 py-3 shadow-none">
-                  <span className="primary-text-gradient">Log in</span>
-                </Button>
-              </Link>
-              <Link to={ROUTES.SIGN_UP}>
-                <Button className="w-full small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] rounded-lg border px-4 py-3 shadow-none">
-                  Sign up
-                </Button>
-              </Link>
+              {session ? (
+                <LogoutButton showLabelOnSmall />
+              ) : (
+                <>
+                  <Link to={ROUTES.SIGN_IN}>
+                    <Button className="w-full small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] rounded-lg border px-4 py-3 shadow-none">
+                      <span className="primary-text-gradient">Log in</span>
+                    </Button>
+                  </Link>
+                  <Link to={ROUTES.SIGN_UP}>
+                    <Button className="w-full small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] rounded-lg border px-4 py-3 shadow-none">
+                      Sign up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </SheetContent>

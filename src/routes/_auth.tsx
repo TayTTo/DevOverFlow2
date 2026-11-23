@@ -1,5 +1,7 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 
+import SocialAuthForm from '@/components/forms/SocialAuthForm'
+
 // Pathless layout: replaces Next.js app/(auth)/layout.tsx
 export const Route = createFileRoute('/_auth')({ component: AuthLayout })
 
@@ -22,7 +24,7 @@ function AuthLayout() {
           />
         </div>
         <Outlet />
-        {/* TODO(phase 3): SocialAuthForm */}
+        <SocialAuthForm />
       </div>
     </div>
   )
