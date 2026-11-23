@@ -1,224 +1,85 @@
-Welcome to your new TanStack Start app!
+# DevFlow (DevOverFlow2)
 
-# Getting Started
+A Q&A site for developers, built with **TanStack Start**. It is a migration of
+the original Next.js 15 app ([TayTTo/Nextjs15](https://github.com/TayTTo/Nextjs15));
+see [docs/MIGRATION.md](docs/MIGRATION.md) for what changed and why.
 
-To run this application:
+## Stack
+
+| Area      | Tool                                                       |
+| --------- | ---------------------------------------------------------- |
+| Framework | TanStack Start + TanStack Router (file-based routing)      |
+| Toolchain | Vite+ (`vp`), pnpm                                         |
+| UI        | React 19, Tailwind CSS v4, shadcn/ui (Radix), lucide icons |
+| Forms     | react-hook-form + zod, MDXEditor                           |
+| Auth      | Better Auth (email/password, optional GitHub/Google)       |
+| Database  | MongoDB (Better Auth adapter + Mongoose models)            |
+
+## Getting started
 
 ```bash
 pnpm install
-pnpm dev
+cp .env.example .env.local   # optional: fill in to enable sign-in/sign-up
+pnpm dev                     # http://localhost:3000
 ```
 
-# Building For Production
+Every page works **without** a database. Only submitting the sign-in/sign-up
+forms needs `MONGODB_URI` and `BETTER_AUTH_SECRET` in `.env.local`
+(see [.env.example](.env.example)). `.env.local` is git-ignored — never commit it.
 
-To build this application for production:
+> Running in a VM? `localhost` on your host is not the VM. Use
+> `ssh -L 3000:localhost:3000 <user>@<vm-ip>` or `pnpm dev --host 0.0.0.0`.
 
-```bash
-pnpm build
+## Scripts
+
+| Command          | What it does                                       |
+| ---------------- | -------------------------------------------------- |
+| `pnpm dev`       | Dev server on port 3000                            |
+| `pnpm build`     | Production build (also regenerates the route tree) |
+| `pnpm start`     | Run the production build                           |
+| `pnpm test`      | Vitest                                             |
+| `vp check --fix` | Format, lint and type check (runs on pre-commit)   |
+
+## Project structure
+
+```
+src/
+├── routes/                  # File-based routes (URL = file path)
+│   ├── __root.tsx           # <html>, fonts, theme provider, toaster
+│   ├── _main.tsx            # Layout: navbar + left/right sidebars
+│   ├── _main/               # /, /community, /tags, /ask-question, ...
+│   ├── _auth.tsx            # Layout: "Join DevFlow" card + social login
+│   ├── _auth/               # /sign-in, /sign-up
+│   └── api/auth/$.ts        # Better Auth handler for /api/auth/*
+├── components/
+│   ├── ui/                  # shadcn/ui primitives (owned, editable)
+│   ├── navigation/          # Navbar, sidebars, nav links, theme toggle
+│   ├── cards/ forms/ filter/ search/ editor/
+├── lib/
+│   ├── auth.ts              # Better Auth server config (server only)
+│   ├── auth-client.ts       # Better Auth browser client
+│   ├── mongoose.ts          # Cached Mongoose connection
+│   ├── handlers/            # action() guard, error formatting
+│   └── validation.ts        # zod schemas
+├── database/                # Mongoose models
+├── constants/               # Routes, sidebar links, tech icons, mock data
+└── types/
 ```
 
-## Testing
+Routes starting with `_` (like `_main`) are **pathless layouts**: they wrap
+child pages without adding a URL segment. `src/routeTree.gen.ts` is generated —
+don't edit it.
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## Status
 
-```bash
-pnpm test
-```
+| Done                                             | Not yet built                                                                |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Layout, navigation, dark mode                    | Saving questions (form doesn't submit yet)                                   |
+| Home: search, filter, question cards (mock data) | Real question data from MongoDB                                              |
+| Ask-question form with Markdown editor           | Question details, profile, community, collections, jobs pages (placeholders) |
+| Sign-in/sign-up UI + Better Auth backend         | Route protection                                                             |
 
-## Styling
+## Learning
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `pnpm add @tailwindcss/vite tailwindcss --dev`
-
-## Setting up Better Auth
-
-1. Generate and set the `BETTER_AUTH_SECRET` environment variable in your `.env.local`:
-
-   ```bash
-   pnpm dlx @better-auth/cli secret
-   ```
-
-2. Visit the [Better Auth documentation](https://www.better-auth.com) to unlock the full potential of authentication in your app.
-
-### Adding a Database (Optional)
-
-Better Auth can work in stateless mode, but to persist user data, add a database:
-
-```typescript
-// src/lib/auth.ts
-import { betterAuth } from 'better-auth'
-import { Pool } from 'pg'
-
-export const auth = betterAuth({
-  database: new Pool({
-    connectionString: process.env.DATABASE_URL,
-  }),
-  // ... rest of config
-})
-```
-
-Then run migrations:
-
-```bash
-pnpm dlx @better-auth/cli migrate
-```
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from '@tanstack/react-router'
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-
-  return <div>Server time: {time}</div>
-}
-```
-
-## API Routes
-
-You can create API routes by using the `server` property in your route definitions:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
-
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
-
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
-
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+[learning/](learning/README.md) is a step-by-step path through the skills used
+in this migration, with exercises based on this codebase.
