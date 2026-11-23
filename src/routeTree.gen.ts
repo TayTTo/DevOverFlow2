@@ -9,68 +9,312 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as MainRouteImport } from './routes/_main'
+import { Route as AuthSignInRouteImport } from './routes/_auth/sign-in'
+import { Route as AuthSignUpRouteImport } from './routes/_auth/sign-up'
+import { Route as MainIndexRouteImport } from './routes/_main/index'
+import { Route as MainAskQuestionRouteImport } from './routes/_main/ask-question'
+import { Route as MainCollectionsRouteImport } from './routes/_main/collections'
+import { Route as MainCommunityRouteImport } from './routes/_main/community'
+import { Route as MainJobsRouteImport } from './routes/_main/jobs'
+import { Route as MainProfileIndexRouteImport } from './routes/_main/profile/index'
+import { Route as MainProfileIdRouteImport } from './routes/_main/profile/$id'
+import { Route as MainTagsIndexRouteImport } from './routes/_main/tags/index'
+import { Route as MainTagsIdRouteImport } from './routes/_main/tags/$id'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const MainRoute = MainRouteImport.update({
+  id: '/_main',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignInRoute = AuthSignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthSignUpRoute = AuthSignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => AuthRoute,
+} as any)
+const MainIndexRoute = MainIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainAskQuestionRoute = MainAskQuestionRouteImport.update({
+  id: '/ask-question',
+  path: '/ask-question',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainCollectionsRoute = MainCollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainCommunityRoute = MainCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainJobsRoute = MainJobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainProfileIndexRoute = MainProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainProfileIdRoute = MainProfileIdRouteImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainTagsIndexRoute = MainTagsIndexRouteImport.update({
+  id: '/tags/',
+  path: '/tags/',
+  getParentRoute: () => MainRoute,
+} as any)
+const MainTagsIdRoute = MainTagsIdRouteImport.update({
+  id: '/tags/$id',
+  path: '/tags/$id',
+  getParentRoute: () => MainRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/': typeof MainIndexRoute
+  '/sign-in': typeof AuthSignInRoute
+  '/sign-up': typeof AuthSignUpRoute
+  '/ask-question': typeof MainAskQuestionRoute
+  '/collections': typeof MainCollectionsRoute
+  '/community': typeof MainCommunityRoute
+  '/jobs': typeof MainJobsRoute
+  '/profile/$id': typeof MainProfileIdRoute
+  '/tags/$id': typeof MainTagsIdRoute
+  '/profile/': typeof MainProfileIndexRoute
+  '/tags/': typeof MainTagsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/': typeof MainIndexRoute
+  '/sign-in': typeof AuthSignInRoute
+  '/sign-up': typeof AuthSignUpRoute
+  '/ask-question': typeof MainAskQuestionRoute
+  '/collections': typeof MainCollectionsRoute
+  '/community': typeof MainCommunityRoute
+  '/jobs': typeof MainJobsRoute
+  '/profile/$id': typeof MainProfileIdRoute
+  '/tags/$id': typeof MainTagsIdRoute
+  '/profile': typeof MainProfileIndexRoute
+  '/tags': typeof MainTagsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_main': typeof MainRouteWithChildren
+  '/_auth/sign-in': typeof AuthSignInRoute
+  '/_auth/sign-up': typeof AuthSignUpRoute
+  '/_main/ask-question': typeof MainAskQuestionRoute
+  '/_main/collections': typeof MainCollectionsRoute
+  '/_main/community': typeof MainCommunityRoute
+  '/_main/jobs': typeof MainJobsRoute
+  '/_main/': typeof MainIndexRoute
+  '/_main/profile/$id': typeof MainProfileIdRoute
+  '/_main/tags/$id': typeof MainTagsIdRoute
+  '/_main/profile/': typeof MainProfileIndexRoute
+  '/_main/tags/': typeof MainTagsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/sign-in'
+    | '/sign-up'
+    | '/ask-question'
+    | '/collections'
+    | '/community'
+    | '/jobs'
+    | '/profile/$id'
+    | '/tags/$id'
+    | '/profile/'
+    | '/tags/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/sign-in'
+    | '/sign-up'
+    | '/ask-question'
+    | '/collections'
+    | '/community'
+    | '/jobs'
+    | '/profile/$id'
+    | '/tags/$id'
+    | '/profile'
+    | '/tags'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/_main'
+    | '/_auth/sign-in'
+    | '/_auth/sign-up'
+    | '/_main/ask-question'
+    | '/_main/collections'
+    | '/_main/community'
+    | '/_main/jobs'
+    | '/_main/'
+    | '/_main/profile/$id'
+    | '/_main/tags/$id'
+    | '/_main/profile/'
+    | '/_main/tags/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  MainRoute: typeof MainRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/_main': {
+      id: '/_main'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MainRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/sign-in': {
+      id: '/_auth/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthSignInRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/sign-up': {
+      id: '/_auth/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof AuthSignUpRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_main/': {
+      id: '/_main/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof MainIndexRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/ask-question': {
+      id: '/_main/ask-question'
+      path: '/ask-question'
+      fullPath: '/ask-question'
+      preLoaderRoute: typeof MainAskQuestionRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/collections': {
+      id: '/_main/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof MainCollectionsRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/community': {
+      id: '/_main/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof MainCommunityRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/jobs': {
+      id: '/_main/jobs'
+      path: '/jobs'
+      fullPath: '/jobs'
+      preLoaderRoute: typeof MainJobsRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/profile/': {
+      id: '/_main/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof MainProfileIndexRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/profile/$id': {
+      id: '/_main/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/profile/$id'
+      preLoaderRoute: typeof MainProfileIdRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/tags/': {
+      id: '/_main/tags/'
+      path: '/tags'
+      fullPath: '/tags/'
+      preLoaderRoute: typeof MainTagsIndexRouteImport
+      parentRoute: typeof MainRoute
+    }
+    '/_main/tags/$id': {
+      id: '/_main/tags/$id'
+      path: '/tags/$id'
+      fullPath: '/tags/$id'
+      preLoaderRoute: typeof MainTagsIdRouteImport
+      parentRoute: typeof MainRoute
     }
   }
 }
 
+interface AuthRouteChildren {
+  AuthSignInRoute: typeof AuthSignInRoute
+  AuthSignUpRoute: typeof AuthSignUpRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthSignInRoute: AuthSignInRoute,
+  AuthSignUpRoute: AuthSignUpRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface MainRouteChildren {
+  MainAskQuestionRoute: typeof MainAskQuestionRoute
+  MainCollectionsRoute: typeof MainCollectionsRoute
+  MainCommunityRoute: typeof MainCommunityRoute
+  MainJobsRoute: typeof MainJobsRoute
+  MainIndexRoute: typeof MainIndexRoute
+  MainProfileIdRoute: typeof MainProfileIdRoute
+  MainTagsIdRoute: typeof MainTagsIdRoute
+  MainProfileIndexRoute: typeof MainProfileIndexRoute
+  MainTagsIndexRoute: typeof MainTagsIndexRoute
+}
+
+const MainRouteChildren: MainRouteChildren = {
+  MainAskQuestionRoute: MainAskQuestionRoute,
+  MainCollectionsRoute: MainCollectionsRoute,
+  MainCommunityRoute: MainCommunityRoute,
+  MainJobsRoute: MainJobsRoute,
+  MainIndexRoute: MainIndexRoute,
+  MainProfileIdRoute: MainProfileIdRoute,
+  MainTagsIdRoute: MainTagsIdRoute,
+  MainProfileIndexRoute: MainProfileIndexRoute,
+  MainTagsIndexRoute: MainTagsIndexRoute,
+}
+
+const MainRouteWithChildren = MainRoute._addFileChildren(MainRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  AuthRoute: AuthRouteWithChildren,
+  MainRoute: MainRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
